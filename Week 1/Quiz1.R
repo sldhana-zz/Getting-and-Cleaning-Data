@@ -62,32 +62,38 @@ table(xpathSApply(root, "//zipcode", xmlValue) == "21231") #127
 # using the fread() command load the data into an R object
 install.packages("data.table")
 library(data.table)
+#DT[,mean(pwgtp15),by=SEX]
+
 comm <- download.file('https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06pid.csv', "comm.csv")
 DT <- fread("comm.csv")
-system.time({
-  tapply(DT$pwgtp15, DT$SEX, mean)
-})
-
-system.time({
-  mean(DT$pwgtp15,by=DT$SEX)
-})
-
-system.time({
+system.time(for(i in 1:1000) 
   sapply(split(DT$pwgtp15,DT$SEX),mean)
-})
+)
 
-system.time({
-  mean(DT[DT$SEX==1,]$pwgtp15); mean(DT[DT$SEX==2,]$pwgtp15)
-})
+system.time(for(i in 1:1000) {
+  rowMeans(DT)[DT$SEX==1]; 
+  rowMeans(DT)[DT$SEX==2]
+  }
+)
 
+system.time(for(i in 1:1000) {
+  mean(DT[DT$SEX==1,]$pwgtp15); 
+  mean(DT[DT$SEX==2,]$pwgtp15)
+  }
+)
 
-system.time({
-  rowMeans(DT)[DT$SEX==1]; rowMeans(DT)[DT$SEX==2]
-})
-
-system.time({
+system.time(for(i in 1:1000) 
   DT[,mean(pwgtp15),by=SEX]
-})
+)
+
+
+system.time(for(i in 1:1000) 
+  tapply(DT$pwgtp15,DT$SEX,mean)
+)
+
+system.time(for(i in 1:1000) 
+  mean(DT$pwgtp15,by=DT$SEX)
+)
 
 
 
