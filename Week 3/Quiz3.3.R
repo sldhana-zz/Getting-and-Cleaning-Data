@@ -61,10 +61,6 @@ mean(high_income_nonoecd$Ranking) # 91.91304
 # Cut the GDP ranking into 5 separate quantile groups. Make a table versus
 # Income.Group. How many countries
 # are Lower middle income but among the 38 nations with highest GDP?
-
-sorted$gdp_groups <- cut(sorted$Ranking, breaks=quantile(sorted$Ranking))
-sorted[Income.Group == 'Lower middle income', .N, by=c("Income.Group", "gdp_groups")]
-
 library(Hmisc)
 sorted$groups = cut2(sorted$Ranking, g = 5)
 table(sorted$Income.Group, sorted$groups)
