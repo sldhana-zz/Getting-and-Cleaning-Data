@@ -8,7 +8,6 @@
 # xts is an extended time series object
 
 library(quantmod)
-library(lubridate)
 amzn = getSymbols("AMZN", auto.assign=FALSE)
 
 sampleTimes = index(amzn)
